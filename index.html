@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Futuro del Trabajo – Profesiones Tecnológicas Emergentes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & ROOT ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1E3A8A;
+      --blue:   #3B82F6;
+      --sky:    #60A5FA;
+      --white:  #FFFFFF;
+      --gray:   #F3F4F6;
+      --mid:    #CBD5E1;
+      --dark:   #0F1E4A;
+      --text:   #1E293B;
+      --muted:  #64748B;
+      --card-bg:#FFFFFF;
+      --shadow: 0 4px 24px rgba(30,58,138,.10);
+      --radius: 16px;
+      --fh: 'Syne', sans-serif;
+      --fb: 'DM Sans', sans-serif;
+      --transition: .3s cubic-bezier(.4,0,.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--fb);
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ───────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(59,130,246,.12);
+      padding: 0 clamp(1rem, 5vw, 4rem);
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-family: var(--fh);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: -.02em;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .nav-brand span {
+      width: 8px; height: 8px;
+      background: var(--blue); border-radius: 50%;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); opacity:1; }
+      50%      { transform: scale(1.6); opacity:.5; }
+    }
+
+    .nav-links {
+      display: flex; gap: clamp(.8rem,2vw,2rem);
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--fb);
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .02em;
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content:''; position: absolute; bottom: -3px; left:0; right:0;
+      height: 2px; background: var(--blue);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-toggle {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      flex-direction: column; gap: 5px;
+    }
+    .nav-toggle span {
+      display: block; width: 24px; height: 2px;
+      background: var(--navy); border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* ── HERO ─────────────────────────────────────────────────── */
+    #inicio {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--dark) 0%, var(--navy) 55%, #1e4ed8 100%);
+      display: flex; align-items: center;
+      padding: 64px clamp(1.5rem, 8vw, 7rem) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* geometric grid overlay */
+    #inicio::before {
+      content:'';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(96,165,250,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(96,165,250,.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* glowing orbs */
+    #inicio::after {
+      content:'';
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(59,130,246,.3) 0%, transparent 70%);
+      top: -150px; right: -150px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 680px;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(59,130,246,.2);
+      border: 1px solid rgba(96,165,250,.4);
+      border-radius: 999px;
+      padding: .35rem 1rem;
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--sky);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .8s .1s both;
+    }
+
+    .hero-tag::before {
+      content:'';
+      width: 6px; height: 6px;
+      background: var(--sky); border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    h1.hero-title {
+      font-family: var(--fh);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: .95;
+      letter-spacing: -.04em;
+      margin-bottom: 1rem;
+      animation: fadeUp .8s .2s both;
+    }
+
+    h1.hero-title em {
+      font-style: normal;
+      color: var(--sky);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 300;
+      color: rgba(255,255,255,.7);
+      line-height: 1.6;
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp .8s .3s both;
+    }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--blue);
+      color: var(--white);
+      font-family: var(--fb);
+      font-weight: 600;
+      font-size: .95rem;
+      padding: .85rem 2rem;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: var(--transition);
+      animation: fadeUp .8s .4s both;
+      box-shadow: 0 4px 20px rgba(59,130,246,.4);
+    }
+    .hero-cta:hover {
+      background: var(--sky);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(59,130,246,.5);
+    }
+
+    .hero-image-wrap {
+      position: absolute;
+      right: clamp(2rem, 8vw, 6rem);
+      bottom: 0;
+      width: clamp(260px, 38vw, 520px);
+      z-index: 1;
+      animation: floatUp 1s .5s both;
+    }
+
+    .hero-image-wrap img {
+      width: 100%;
+      display: block;
+      border-radius: var(--radius) var(--radius) 0 0;
+      object-fit: cover;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 5;
+      display: flex; flex-direction: column; align-items: center; gap: .4rem;
+      color: rgba(255,255,255,.4);
+      font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+      animation: fadeIn 1s 1s both;
+    }
+    .hero-scroll::after {
+      content:'';
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.4), transparent);
+      animation: scrollLine 1.5s ease infinite;
+    }
+
+    @keyframes scrollLine {
+      0%   { opacity:0; transform: scaleY(0); transform-origin: top; }
+      50%  { opacity:1; transform: scaleY(1); transform-origin: top; }
+      100% { opacity:0; transform: scaleY(1); transform-origin: bottom; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes floatUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTIONS COMMON ──────────────────────────────────────── */
+    section { padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 8vw, 7rem); }
+
+    .section-label {
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: .75rem;
+    }
+
+    .section-title {
+      font-family: var(--fh);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 640px;
+    }
+
+    /* ── WHAT IS ──────────────────────────────────────────────── */
+    #inicio-info { background: var(--gray); }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    .info-text p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+    .info-text p strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .info-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      border-top: 3px solid var(--blue);
+      transition: transform var(--transition);
+    }
+    .stat-card:hover { transform: translateY(-4px); }
+
+    .stat-num {
+      font-family: var(--fh);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: .25rem;
+    }
+    .stat-num span { color: var(--blue); }
+    .stat-label {
+      font-size: .85rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    /* ── PROFESSION CARDS ─────────────────────────────────────── */
+    #profesiones { background: var(--white); }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .prof-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(59,130,246,.08);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prof-card::before {
+      content:'';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--navy), var(--blue));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+
+    .prof-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(30,58,138,.15); }
+    .prof-card:hover::before { transform: scaleX(1); }
+
+    .card-icon {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+      transition: transform var(--transition);
+    }
+    .prof-card:hover .card-icon { transform: rotate(-6deg) scale(1.08); }
+
+    .card-title {
+      font-family: var(--fh);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: .6rem;
+      letter-spacing: -.02em;
+    }
+
+    .card-desc {
+      font-size: .9rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── SKILLS ───────────────────────────────────────────────── */
+    #habilidades { background: var(--dark); }
+    #habilidades .section-title { color: var(--white); }
+    #habilidades .section-desc  { color: rgba(255,255,255,.5); }
+    #habilidades .section-label { color: var(--sky); }
+
+    .skills-wrap {
+      margin-top: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .skill-pill {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(96,165,250,.25);
+      border-radius: 999px;
+      padding: .65rem 1.4rem;
+      font-size: .9rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.8);
+      display: flex; align-items: center; gap: .6rem;
+      transition: var(--transition);
+      cursor: default;
+    }
+
+    .skill-pill:hover {
+      background: rgba(59,130,246,.25);
+      border-color: var(--blue);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .skill-pill svg {
+      width: 16px; height: 16px;
+      fill: var(--sky);
+    }
+
+    /* ── GALLERY ──────────────────────────────────────────────── */
+    #galeria { background: var(--gray); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .gallery-item {
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .gallery-item:first-child {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .5s cubic-bezier(.4,0,.2,1);
+      display: block;
+    }
+
+    .gallery-item:hover img { transform: scale(1.07); }
+
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(15,30,74,.7), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+      display: flex; align-items: flex-end;
+      padding: 1rem 1.2rem;
+    }
+
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    .gallery-caption {
+      font-family: var(--fb);
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--white);
+      letter-spacing: .02em;
+    }
+
+    /* ── RESOURCES ────────────────────────────────────────────── */
+    #recursos { background: var(--white); }
+
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .resource-card {
+      background: var(--gray);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      text-decoration: none;
+      display: flex; flex-direction: column; gap: .75rem;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .resource-card:hover {
+      background: var(--white);
+      border-color: rgba(59,130,246,.25);
+      box-shadow: var(--shadow);
+      transform: translateY(-4px);
+    }
+
+    .resource-logo {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .resource-name {
+      font-family: var(--fh);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .resource-desc {
+      font-size: .85rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .resource-arrow {
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--blue);
+      letter-spacing: .03em;
+      display: flex; align-items: center; gap: .3rem;
+    }
+
+    /* ── CONTACT ──────────────────────────────────────────────── */
+    #contacto {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--dark) 100%);
+    }
+
+    .contact-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-info .section-title { color: var(--white); margin-bottom: 1.5rem; }
+    .contact-info .section-label { color: var(--sky); }
+
+    .contact-detail {
+      display: flex; align-items: center; gap: .75rem;
+      margin-bottom: 1rem;
+      color: rgba(255,255,255,.75);
+      font-size: .95rem;
+      font-weight: 300;
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .contact-detail:hover { color: var(--sky); }
+    .contact-detail span {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.1);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+
+    .contact-deco {
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(59,130,246,.25) 0%, transparent 70%);
+      border: 1px solid rgba(96,165,250,.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .contact-deco::before {
+      content:'';
+      position: absolute; inset: -12px;
+      border-radius: 50%;
+      border: 1px dashed rgba(96,165,250,.3);
+      animation: spin 20s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── FOOTER ───────────────────────────────────────────────── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(96,165,250,.1);
+      padding: 2rem clamp(1.5rem,8vw,7rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-text {
+      font-size: .82rem;
+      font-weight: 300;
+      color: rgba(255,255,255,.4);
+      line-height: 1.6;
+    }
+
+    .footer-text strong { color: rgba(255,255,255,.65); font-weight: 500; }
+
+    .footer-brand {
+      font-family: var(--fh);
+      font-size: .9rem;
+      font-weight: 800;
+      color: var(--sky);
+      letter-spacing: -.02em;
+    }
+
+    /* ── MOBILE ───────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-image-wrap { display: none; }
+      .info-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:first-child { grid-column: span 2; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; flex-direction: column; background: var(--white); position: fixed; inset: 64px 0 0; padding: 2rem; gap: 1.5rem; }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: flex; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item:first-child { grid-column: span 1; }
+      .info-stats { grid-template-columns: 1fr 1fr; }
+      .contact-deco { display: none; }
+    }
+
+    /* ── SCROLL REVEAL ────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────────── -->
+<nav>
+  <a href="#inicio" class="nav-brand">
+    <span></span>FuturoTech
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#profesiones">Profesiones</a></li>
+    <li><a href="#habilidades">Habilidades</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#recursos">Recursos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section id="inicio">
+  <div class="hero-content">
+    <div class="hero-tag">Tendencias 2026</div>
+    <h1 class="hero-title">Futuro del<br><em>Trabajo</em></h1>
+    <p class="hero-subtitle">
+      Descubre las profesiones tecnológicas de mayor crecimiento y las habilidades
+      que definirán la economía digital de los próximos años.
+    </p>
+    <a href="#profesiones" class="hero-cta">
+      Explorar profesiones
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- Hero image: Unsplash free image -->
+
+
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- ── WHAT IS ──────────────────────────────────────────────── -->
+<section id="inicio-info">
+  <div class="section-label reveal">¿Qué está pasando?</div>
+  <h2 class="section-title reveal">El trabajo está<br>cambiando — rápido</h2>
+
+  <div class="info-grid">
+    <div class="info-text reveal">
+      <p>
+        La <strong>transformación digital</strong> está redefiniendo cómo las empresas
+        operan, producen y compiten. Industrias enteras están siendo reconfiguradas por
+        la automatización, los datos y la inteligencia artificial.
+      </p>
+      <p>
+        La <strong>automatización de procesos</strong> está desplazando tareas
+        repetitivas y creando demanda de perfiles capaces de diseñar, mantener y mejorar
+        los sistemas que reemplazan el trabajo manual.
+      </p>
+      <p>
+        El <strong>impacto de la IA</strong> se siente en todos los sectores: salud,
+        finanzas, educación, logística. Las herramientas de machine learning aceleran
+        decisiones que antes tomaban días.
+      </p>
+      <p>
+        La <strong>capacitación continua</strong> ya no es opcional: aprender nuevas
+        tecnologías es la habilidad más importante del siglo XXI.
+      </p>
+    </div>
+
+    <div class="info-stats reveal">
+      <div class="stat-card">
+        <div class="stat-num">85<span>M</span></div>
+        <div class="stat-label">Puestos desplazados por automatización para 2028</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">97<span>M</span></div>
+        <div class="stat-label">Nuevos roles emergentes esperados globalmente</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">44<span>%</span></div>
+        <div class="stat-label">De trabajadores necesitarán recapacitarse</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">6<span>x</span></div>
+        <div class="stat-label">Crecimiento de empleos en IA respecto a 2020</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROFESIONES ──────────────────────────────────────────── -->
+<section id="profesiones">
+  <div class="section-label reveal">Oportunidades emergentes</div>
+  <h2 class="section-title reveal">Profesiones Tecnológicas<br>Emergentes</h2>
+  <p class="section-desc reveal">
+    Estas son las carreras con mayor proyección de crecimiento, salario y demanda
+    en el mercado laboral global.
+  </p>
+
+  <div class="cards-grid">
+    <div class="prof-card reveal">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Especialista en Inteligencia Artificial</div>
+      <p class="card-desc">
+        Diseña y desarrolla sistemas capaces de aprender y tomar decisiones autónomas,
+        aplicando modelos de machine learning y deep learning.
+      </p>
+    </div>
+    <div class="prof-card reveal">
+      <div class="card-icon">📊</div>
+      <div class="card-title">Científico de Datos</div>
+      <p class="card-desc">
+        Analiza grandes volúmenes de información para extraer patrones y apoyar
+        decisiones empresariales estratégicas.
+      </p>
+    </div>
+    <div class="prof-card reveal">
+      <div class="card-icon">💻</div>
+      <div class="card-title">Desarrollador de Software</div>
+      <p class="card-desc">
+        Crea aplicaciones, plataformas y soluciones digitales a medida, usando
+        lenguajes modernos y metodologías ágiles.
+      </p>
+    </div>
+    <div class="prof-card reveal">
+      <div class="card-icon">🔐</div>
+      <div class="card-title">Especialista en Ciberseguridad</div>
+      <p class="card-desc">
+        Protege sistemas, redes y datos frente a amenazas informáticas, garantizando
+        la integridad y privacidad de la información.
+      </p>
+    </div>
+    <div class="prof-card reveal">
+      <div class="card-icon">🦾</div>
+      <div class="card-title">Ingeniero en Robótica</div>
+      <p class="card-desc">
+        Diseña, construye y programa robots para automatizar procesos en sectores
+        industriales, médicos y logísticos.
+      </p>
+    </div>
+    <div class="prof-card reveal">
+      <div class="card-icon">☁️</div>
+      <div class="card-title">Arquitecto de Computación en la Nube</div>
+      <p class="card-desc">
+        Administra y diseña infraestructuras y servicios digitales escalables en
+        plataformas como AWS, Azure o Google Cloud.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── HABILIDADES ──────────────────────────────────────────── -->
+<section id="habilidades">
+  <div class="section-label reveal">Lo que el mercado demanda</div>
+  <h2 class="section-title reveal">Habilidades del Futuro</h2>
+  <p class="section-desc reveal">
+    Desarrollar estas competencias te posicionará en la cima del mercado laboral
+    tecnológico independientemente del sector.
+  </p>
+
+  <div class="skills-wrap reveal">
+    <div class="skill-pill">
+      <svg viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg>
+      Programación
+    </div>
+    <div class="skill-pill">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 17.9V18a1 1 0 0 0-2 0v1.9A8 8 0 0 1 4.1 13H6a1 1 0 0 0 0-2H4.1A8 8 0 0 1 11 4.1V6a1 1 0 0 0 2 0V4.1A8 8 0 0 1 19.9 11H18a1 1 0 0 0 0 2h1.9A8 8 0 0 1 13 19.9z"/></svg>
+      Pensamiento Crítico
+    </div>
+    <div class="skill-pill">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2zm4 0h-2V8h2z"/></svg>
+      Resolución de Problemas
+    </div>
+    <div class="skill-pill">
+      <svg viewBox="0 0 24 24"><path d="M21 3H3v18l4-4h14z"/></svg>
+      Inteligencia Artificial
+    </div>
+    <div class="skill-pill">
+      <svg viewBox="0 0 24 24"><path d="M3.5 18.5l6-6 4 4L22 6"/></svg>
+      Análisis de Datos
+    </div>
+    <div class="skill-pill">
+      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      Trabajo en Equipo
+    </div>
+    <div class="skill-pill">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      Comunicación Digital
+    </div>
+    <div class="skill-pill">
+      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8z"/></svg>
+      Adaptabilidad al Cambio
+    </div>
+  </div>
+</section>
+
+<!-- ── GALERÍA ──────────────────────────────────────────────── -->
+<section id="galeria">
+  <div class="section-label reveal">Visualiza el futuro</div>
+  <h2 class="section-title reveal">Galería</h2>
+  <p class="section-desc reveal">
+    Imágenes que representan las tecnologías y entornos laborales del mañana.
+  </p>
+
+  <div class="gallery-grid reveal">
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=900&auto=format&fit=crop" alt="Inteligencia Artificial" loading="lazy"/>
+      <div class="gallery-overlay"><span class="gallery-caption">Inteligencia Artificial</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=500&auto=format&fit=crop" alt="Programación" loading="lazy"/>
+      <div class="gallery-overlay"><span class="gallery-caption">Programación</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&auto=format&fit=crop" alt="Robótica" loading="lazy"/>
+      <div class="gallery-overlay"><span class="gallery-caption">Robótica</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop" alt="Tecnología avanzada" loading="lazy"/>
+      <div class="gallery-overlay"><span class="gallery-caption">Tecnología Avanzada</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop" alt="Ciencia de Datos" loading="lazy"/>
+      <div class="gallery-overlay"><span class="gallery-caption">Ciencia de Datos</span></div>
+    </div>
+    <div class="gallery-item">
+      <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&auto=format&fit=crop" alt="Computación en la nube" loading="lazy"/>
+      <div class="gallery-overlay"><span class="gallery-caption">Computación en la Nube</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RECURSOS ─────────────────────────────────────────────── -->
+<section id="recursos">
+  <div class="section-label reveal">Aprende más</div>
+  <h2 class="section-title reveal">Recursos y Enlaces de Interés</h2>
+  <p class="section-desc reveal">
+    Plataformas y comunidades para comenzar o profundizar tu carrera tecnológica.
+  </p>
+
+  <div class="resources-grid">
+    <a href="https://github.com" target="_blank" rel="noopener" class="resource-card reveal">
+      <div class="resource-logo" style="background:#1b1f23; color:#fff;">⚙️</div>
+      <div class="resource-name">GitHub</div>
+      <p class="resource-desc">La plataforma líder para alojar proyectos, colaborar en código abierto y mostrar tu portafolio técnico.</p>
+      <div class="resource-arrow">Visitar →</div>
+    </a>
+    <a href="https://www.coursera.org" target="_blank" rel="noopener" class="resource-card reveal">
+      <div class="resource-logo" style="background:#0056D2; color:#fff;">🎓</div>
+      <div class="resource-name">Coursera</div>
+      <p class="resource-desc">Cursos y certificaciones de universidades y empresas líderes en tecnología, ciencia de datos e IA.</p>
+      <div class="resource-arrow">Visitar →</div>
+    </a>
+    <a href="https://learn.microsoft.com" target="_blank" rel="noopener" class="resource-card reveal">
+      <div class="resource-logo" style="background:#0078D4; color:#fff;">🪟</div>
+      <div class="resource-name">Microsoft Learn</div>
+      <p class="resource-desc">Rutas de aprendizaje gratuitas en Azure, desarrollo de software, IA y certificaciones oficiales Microsoft.</p>
+      <div class="resource-arrow">Visitar →</div>
+    </a>
+    <a href="https://careers.google.com" target="_blank" rel="noopener" class="resource-card reveal">
+      <div class="resource-logo" style="background:#EA4335; color:#fff;">🔍</div>
+      <div class="resource-name">Google Careers</div>
+      <p class="resource-desc">Certificados de Google en áreas como análisis de datos, ciberseguridad y soporte de TI, diseñados para principiantes.</p>
+      <div class="resource-arrow">Visitar →</div>
+    </a>
+    <a href="https://skillsbuild.org" target="_blank" rel="noopener" class="resource-card reveal">
+      <div class="resource-logo" style="background:#1F70C1; color:#fff;">💡</div>
+      <div class="resource-name">IBM SkillsBuild</div>
+      <p class="resource-desc">Programa educativo de IBM con contenidos en IA, nube e informática para estudiantes y buscadores de empleo.</p>
+      <div class="resource-arrow">Visitar →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ── CONTACTO ─────────────────────────────────────────────── -->
+<section id="contacto">
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <div class="section-label">Autora del proyecto</div>
+      <h2 class="section-title">Contacto</h2>
+      <a href="mailto:estudiante@correo.com" class="contact-detail">
+        <span>✉️</span> estudiante@correo.com
+      </a>
+      <div class="contact-detail">
+        <span>👤</span> Nombre del Estudiante
+      </div>
+      <a href="https://github.com" target="_blank" rel="noopener" class="contact-detail">
+        <span>⚙️</span> github.com/usuario
+      </a>
+    </div>
+    <div class="contact-deco">🚀</div>
+  </div>
+</section>
+
+<!-- ── FOOTER ───────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-text">
+    <div><strong>© 2026 — Proyecto Educativo</strong></div>
+    <div>Futuro del Trabajo: Profesiones Tecnológicas Emergentes</div>
+    <div>Desarrollado para fines académicos.</div>
+  </div>
+  <div class="footer-brand">FuturoTech ·</div>
+</footer>
+
+<!-- ── JS ───────────────────────────────────────────────────── -->
+<script>
+  // Mobile nav toggle
+  const toggle = document.getElementById('navToggle');
+  const links  = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }),
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
